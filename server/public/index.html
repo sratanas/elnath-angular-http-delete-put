@@ -4,11 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src = "vendors/angular.js"></script>
-    <script src = "scripts/client.js"></script>
-    <title>Document</title>
+    <script src = "/vendors/angular.js"></script>
+    <script src = "/scripts/client.js"></script>
+    <title>Angular HTTP</title>
 </head>
-<body>
+<body ng-app = "RestaurantApp" ng-controller = "FoodController as vm">
+    <p>vm.message: {{vm.message}}</p>
+    <p>vm.foodArray: {{vm.foodArray}}</p>
     
+    <h1>Angular HTTP</h1>
+    <h2>Food List</h2>
+    <input type = "text" ng-model = "vm.newFood.name" placeholder = "name">
+    <input type = "number" ng-model = "vm.newFood.deliciousness_rating" placeholder = "Deliciousness rating">
+    <label>Is it hot?</label>
+    <input type = "checkbox" ng-model = "vm.newFood.is_hot" >
+    <button ng-click = "vm.addNewFood(vm.newFood)">Submit</button>
+    
+    <!-- {{vm.newFood}} -->
+    
+    <ul>
+            <li ng-repeat = "food in vm.foodArray">
+         {{food.name}} 
+         <span ng-show = "food.is_hot" >is really hot!</span>   <!-- if this is true it should show this<< ternary -->
+        <!-- ng-if is a lot like ng-show (do basically the same thing), ng-if never creates the element, ng-show creates it and hides it -->
+         <span ng-hide = "food.is_hot">is not that hot</span> <!-- does the opposite of show -->
+        and
+        {{food.deliciousness_rating > 80 ? "is really really delicious" : "is ok"}}
+        <!-- ternary way to do an if statement but shorter. before the colon returned if true, after if else -->
+    </ul>
+    {{3+9}}
+  
 </body>
 </html>
