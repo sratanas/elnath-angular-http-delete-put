@@ -9,7 +9,7 @@ router.get('/', function (req, res) {
             res.sendStatus(500);
 
         } else {
-            client.query('SELECT * FROM food;', function (errorMakingDatabaseQuery, result) {
+            client.query('SELECT * FROM food ORDER BY id;', function (errorMakingDatabaseQuery, result) {
                 done();
                 if (errorMakingDatabaseQuery) {
                     console.log('error', errorMakingDatabaseQuery);
@@ -45,15 +45,16 @@ router.post('/', function (req, res) {
         }
     })
 })
-
+// if id was taco after params would be taco
 router.delete('/:id', function (req, res) {
+    var foodToDeleteId= req.params.id;
     pool.connect(function (errorConnectingToDatabase, client, done) {
         if (errorConnectingToDatabase) {
             console.log('error', errorConnectingToDatabase);
             res.sendStatus(500);
 
         } else {
-            client.query(`DELETE FROM food WHERE id = $1;`, [req.params.id],
+            client.query(`DELETE FROM food WHERE id = $1;`, [foodToDeleteId],
                 function (errorMakingDatabaseQuery, result) {
                     done();
                     if (errorMakingDatabaseQuery) {
@@ -61,22 +62,24 @@ router.delete('/:id', function (req, res) {
                         res.sendStatus(500);
 
                     } else {
-                        res.sendStatus(201);
+                        res.sendStatus(200);
                     }
                 })
         }
     })
 })
-
-router.put('/:id', function (req, res) {
+//body is whatever is in data
+router.put('/', function (req, res) {
+    var foodToEdit= req.body;
     pool.connect(function (errorConnectingToDatabase, client, done) {
         if (errorConnectingToDatabase) {
             console.log('error', errorConnectingToDatabase);
             res.sendStatus(500);
 
         } else {
-            client.query(`UPDATE food SET name=$1, deliciousness_rating=$2, is_hot=$3 WHERE id=$4;`, 
-            [req.body.name, req.body.deliciousness_rating, req.body.is_hot, req.params.id],
+            client.query(`UPDATE food 
+            SET name = $1, deliciousness_rating = $2, is_hot = $3 WHERE id = $4;`,
+            [foodToEdit.name, foodToEdit.deliciousness_rating, foodToEdit.is_hot, foodToEdit.id],
                 function (errorMakingDatabaseQuery, result) {
                     done();
                     if (errorMakingDatabaseQuery) {
@@ -84,7 +87,7 @@ router.put('/:id', function (req, res) {
                         res.sendStatus(500);
 
                     } else {
-                        res.sendStatus(201);
+                        res.sendStatus(200);
                     }
                 })
         }

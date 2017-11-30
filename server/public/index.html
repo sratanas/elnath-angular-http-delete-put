@@ -22,19 +22,34 @@
     
     <!-- {{vm.newFood}} -->
     
-    <ul>
-            <li ng-repeat = "food in vm.foodArray">
-         {{food.name}} 
+  
+        <!-- Loop through all the objects
+        taking on an object that has four properties. Food.name relates to whatever object we are currently 
+        looping through -->
+            <div ng-repeat = "food in vm.foodArray"> 
+                <!-- food is what we are currently looping through -->
+                <h3> {{food.name}} </h3>
+        
          <span ng-show = "food.is_hot" >is really hot!</span>   <!-- if this is true it should show this<< ternary -->
         <!-- ng-if is a lot like ng-show (do basically the same thing), ng-if never creates the element, ng-show creates it and hides it -->
          <span ng-hide = "food.is_hot">is not that hot</span> <!-- does the opposite of show -->
         and
         {{food.deliciousness_rating > 80 ? "is really really delicious" : "is ok"}}
+        <!-- this is coming from SQL  -->
+        <pre>The SQL id for this food is {{food.id}}.</pre>
+        <!-- angular is creating our $index -->
+        <pre>The angular $index for this food is {{$index}}.</pre>
         <!-- ternary way to do an if statement but shorter. before the colon returned if true, after if else -->
-        <button ng-click = "vm.deleteFood(food.id)">Delete</button>
-        <button ng-click = "vm.updateFood(food.id, updateFood.id)">Update Food</button>
         
-    </ul>
+        <input type = "text" ng-model = "food.name" placeholder = "name">
+        <input type = "number" ng-model = "food.deliciousness_rating" placeholder = "Deliciousness rating">
+        <label>Is it hot?</label>
+        <input type = "checkbox" ng-model = "foodd.is_hot" >
+
+        <button ng-click = "vm.deleteFood(food)">Delete</button>
+        <button ng-click = "vm.editFood(food)">Save</button>
+            </div>
+        
     {{3+9}}
   
 </body>

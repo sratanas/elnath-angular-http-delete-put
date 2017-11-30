@@ -9,6 +9,10 @@ app.controller('FoodController', ['$http', function($http){ // brought in $http 
     self.newFood = {is_hot: false};
 
 
+
+
+
+
     self.getFood = function () { //$http instead of $.ajax
         $http({
             method: 'GET',
@@ -17,6 +21,8 @@ app.controller('FoodController', ['$http', function($http){ // brought in $http 
         }).then(function(response){ //.then instead of success
             console.log('response', response.data); // .data just to get the array back
             self.foodArray = response.data; //part of getting it on the dom (see foodArray in index)
+            
+
         });   
     };
 
@@ -34,36 +40,30 @@ app.controller('FoodController', ['$http', function($http){ // brought in $http 
         })
     }
 
-    self.deleteFood = function(id){
+    self.deleteFood = function(foodToDelete){
         $http({
             method: 'DELETE',
-            url: '/food/' + id,
+            url:'/food/' + foodToDelete.id //will end up as something like /food/3
         }).then(function(response){
             console.log('response', response);
             self.getFood();
             
-        })
-    }
 
-    self.updateFood = function(id){
+        });
+    };
+
+    self.editFood = function(foodToEdit){
         $http({
             method: 'PUT',
-            url: '/food/' + id,
+            url:'/food',
+            data: foodToEdit
         }).then(function(response){
             console.log('response', response);
             self.getFood();
             
-        })
-    }
 
-
-    // self.updateFood = function(){
-    //     $http({
-    //         method: 'PUT',
-    //         url: '/food',
-    //         data:
-    //     })
-    // }
+        });
+    };
 
     self.getFood(); // have to do it down here because it does not exist until above line of code runs
   
