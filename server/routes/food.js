@@ -46,5 +46,49 @@ router.post('/', function (req, res) {
     })
 })
 
+router.delete('/:id', function (req, res) {
+    pool.connect(function (errorConnectingToDatabase, client, done) {
+        if (errorConnectingToDatabase) {
+            console.log('error', errorConnectingToDatabase);
+            res.sendStatus(500);
+
+        } else {
+            client.query(`DELETE FROM food WHERE id = $1;`, [req.params.id],
+                function (errorMakingDatabaseQuery, result) {
+                    done();
+                    if (errorMakingDatabaseQuery) {
+                        console.log('error', errorMakingDatabaseQuery);
+                        res.sendStatus(500);
+
+                    } else {
+                        res.sendStatus(201);
+                    }
+                })
+        }
+    })
+})
+
+router.put('/:id', function (req, res) {
+    pool.connect(function (errorConnectingToDatabase, client, done) {
+        if (errorConnectingToDatabase) {
+            console.log('error', errorConnectingToDatabase);
+            res.sendStatus(500);
+
+        } else {
+            client.query(`UPDATE food SET name=$1, deliciousness_rating=$2, is_hot=$3 WHERE id=$4;`, 
+            [req.body.name, req.body.deliciousness_rating, req.body.is_hot, req.params.id],
+                function (errorMakingDatabaseQuery, result) {
+                    done();
+                    if (errorMakingDatabaseQuery) {
+                        console.log('error', errorMakingDatabaseQuery);
+                        res.sendStatus(500);
+
+                    } else {
+                        res.sendStatus(201);
+                    }
+                })
+        }
+    })
+})
 
 module.exports = router;

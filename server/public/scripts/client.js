@@ -34,6 +34,37 @@ app.controller('FoodController', ['$http', function($http){ // brought in $http 
         })
     }
 
+    self.deleteFood = function(id){
+        $http({
+            method: 'DELETE',
+            url: '/food/' + id,
+        }).then(function(response){
+            console.log('response', response);
+            self.getFood();
+            
+        })
+    }
+
+    self.updateFood = function(id){
+        $http({
+            method: 'PUT',
+            url: '/food/' + id,
+        }).then(function(response){
+            console.log('response', response);
+            self.getFood();
+            
+        })
+    }
+
+
+    // self.updateFood = function(){
+    //     $http({
+    //         method: 'PUT',
+    //         url: '/food',
+    //         data:
+    //     })
+    // }
+
     self.getFood(); // have to do it down here because it does not exist until above line of code runs
   
     
